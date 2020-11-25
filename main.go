@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"net/http"
+	"crypto/tls"
 
 	"github.com/go-clix/cli"
 	"github.com/google/go-jsonnet/formatter"
@@ -30,6 +32,8 @@ type Config struct {
 
 func main() {
 	log.SetFlags(0)
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+
 	cmd := &cli.Command{
 		Use:   "k8s-gen [versions]",
 		Short: "k8s-gen generates the Jsonnet Kubernetes library from OpenAPI specs",
