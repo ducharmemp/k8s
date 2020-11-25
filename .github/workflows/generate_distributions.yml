@@ -16,7 +16,7 @@ jobs:
   #       cmd: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
 
   dists:
-    needs: targets
+    # needs: targets
     runs-on: ubuntu-latest
     # strategy:
     #   matrix: ${{fromJson(needs.targets.outputs.matrix)}}
