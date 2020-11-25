@@ -40,3 +40,6 @@ jobs:
       - name: Generate jsonnet
         run: |
           go run main.go -t ambassador
+      - name: Cat output
+        run: |
+          cat ./ambassador/_gen/getambassador/v2/authService.libsonnet
