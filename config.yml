@@ -43,13 +43,13 @@ specs:
   extensionDir: extensions/core
 
 - output: 'ambassador'
-  openapi: http://localhost:8000/openapi/v2
+  openapi: http://localhost:32768/openapi/v2
   prefix: io.getambassador.
   patchDir: custom/ambassador
   extensionDir: extensions/ambassador
-  
+
 - output: 'zalando'
-  openapi: http://localhost:8000/openapi/v2
+  openapi: http://localhost:32768/openapi/v2
   prefix: do.zalan.acid.
   patchDir: custom/zalando
   extensionDir: extensions/zalando
