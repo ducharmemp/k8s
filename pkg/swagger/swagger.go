@@ -34,13 +34,13 @@ func LoadHTTP(url string) (*Swagger, error) {
 
 func Load(data []byte) (*Swagger, error) {
 	var s Swagger
+	fmt.Printf("%+v\n", string(data))
 	if err := json.Unmarshal(data, &s); err != nil {
 		return nil, err
 	}
 
 	for k, def := range s.Definitions {
 		s.Definitions[k] = resolveRefs(def, s.Definitions)
-		fmt.Printf("%+v\n", s.Definitions[k])
 	}
 
 	return &s, nil
