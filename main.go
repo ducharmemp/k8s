@@ -37,11 +37,12 @@ func main() {
 
 	configFile := cmd.Flags().StringP("config", "c", "config.yml", "YAML configuration file")
 	output := cmd.Flags().StringP("output", "o", ".", "directory to put artifacts into")
+	target := cmd.Flags().StringP("target", "t", "*", "targeted name of the spec to generate")
 
 	cmd.Run = func(cmd *cli.Command, args []string) error {
 		config := loadConfig(*configFile)
 
-		for _, t := range config.Specs {
+		for _, t := range filterSpecs(config.Specs, *target) {
 			if len(args) > 0 && !hasStr(args, t.Output) {
 				continue
 			}
@@ -63,6 +64,18 @@ func main() {
 	if err := cmd.Execute(); err != nil {
 		log.Fatalln(err)
 	}
+}
+
+func filterSpecs(specs []Target, filter string) []Target {
+	targets := make([]Target, 0)
+
+	for _, v := range specs {
+		if v.Output == filter {
+			targets = append(targets, v)
+		}
+	}
+
+	return targets;
 }
 
 func hasStr(slice []string, s string) bool {

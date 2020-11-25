@@ -1,0 +1,39 @@
+name: Generate Distributions
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  # targets:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     matrix: ${{ steps.set-matrix.outputs.matrix }}
+  #   steps:
+  #   - uses: actions/checkout@master
+  #   - name: set-matrix
+  #     uses: mikefarah/yq@4.0.0-alpha1
+  #     with:
+  #       cmd: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+
+  dists:
+    needs: targets
+    runs-on: ubuntu-latest
+    # strategy:
+    #   matrix: ${{fromJson(needs.targets.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@master
+      - uses: engineerd/setup-kind@v0.5.0
+      - uses: actions/setup-go@v2
+      - name: Testing
+        run: |
+          kubectl cluster-info
+          kubectl get pods -n kube-system
+          echo "current-context:" $(kubectl config current-context)
+          echo "environment-kubeconfig:" ${KUBECONFIG}
+      - name: Deploy CRD
+        run: |
+          kubectl apply -f https://www.getambassador.io/yaml/aes-crds.yaml && \
+          kubectl wait --for condition=established --timeout=90s crd -lproduct=aes
+      - name: Generate jsonnet
+        run: |
+          go run main.go -t ambassador

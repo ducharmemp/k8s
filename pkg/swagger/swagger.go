@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+	"fmt"
 )
 
 var skipRefs = map[string]bool{
@@ -39,6 +40,7 @@ func Load(data []byte) (*Swagger, error) {
 
 	for k, def := range s.Definitions {
 		s.Definitions[k] = resolveRefs(def, s.Definitions)
+		fmt.Printf("%+v\n", s.Definitions[k])
 	}
 
 	return &s, nil

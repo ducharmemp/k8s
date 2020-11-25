@@ -35,3 +35,22 @@ specs:
   prefix: io.k8s.api.
   patchDir: custom/core
   extensionDir: extensions/core
+
+- output: '1.19'
+  openapi: https://raw.githubusercontent.com/kubernetes/kubernetes/release-1.19/api/openapi-spec/swagger.json
+  prefix: io.k8s.api.
+  patchDir: custom/core
+  extensionDir: extensions/core
+
+- output: 'ambassador'
+  openapi: http://localhost:8000/openapi/v2
+  prefix: io.getambassador.
+  patchDir: custom/ambassador
+  extensionDir: extensions/ambassador
+  
+- output: 'zalando'
+  openapi: http://localhost:8000/openapi/v2
+  prefix: do.zalan.acid.
+  patchDir: custom/zalando
+  extensionDir: extensions/zalando
+  #/definitions/io.getambassador.v1.ConsulResolverList
